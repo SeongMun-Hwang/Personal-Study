@@ -44,6 +44,7 @@ namespace CsConsole
                 WriteLine("Even");
             else
                 WriteLine("Odd");
+            WriteLine();
 
             //158
             object obj = null;
@@ -65,7 +66,8 @@ namespace CsConsole
                     WriteLine($"{(float)obj}'s type is Float");
                     break;
                 default:
-                    WriteLine($"{obj}'s type is Unknown)");
+                    WriteLine($"{obj}'s type is Unknown");
+                    break;
             }
 
             ReadLine();
