@@ -7,7 +7,9 @@ public class PlayerControl : MonoBehaviour
     public float horizontalnput;
     public float playerSpeed = 20;
     public float xRange = 10;
-    // Update is called once per frame
+
+    //food control
+    public GameObject projectilePrefab;
     void Update()
     {
         horizontalnput = Input.GetAxis("Horizontal");
@@ -17,5 +19,10 @@ public class PlayerControl : MonoBehaviour
             transform.position=new Vector3(-xRange,transform.position.y,transform.position.z);
         if (transform.position.x > xRange)
             transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
     }
 }
