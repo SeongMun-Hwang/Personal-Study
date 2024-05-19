@@ -9,24 +9,38 @@ public class GameManagerX : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI timeText;
+
     public GameObject titleScreen;
     public Button restartButton; 
 
     public List<GameObject> targetPrefabs;
 
     private int score;
-    private float spawnRate = 1.5f;
+    public float spawnRate = 5.0f;
     public bool isGameActive;
 
     private float spaceBetweenSquares = 2.5f; 
     private float minValueX = -3.75f; //  x value of the center of the left-most square
     private float minValueY = -3.75f; //  y value of the center of the bottom-most square
-    
-    // Start the game, remove title screen, reset score, and adjust spawnRate based on difficulty button clicked
+
+    private DifficultyButtonX difficultyButtonX;
+    public int countDown;
+    public bool isChallege = false;
+
+    private void Start()
+    {
+        difficultyButtonX=GameObject.Find("Challenge").GetComponent<DifficultyButtonX>();
+    }
     public void StartGame()
     {
-        spawnRate /= 5;
         isGameActive = true;
+        if (isChallege)
+        {
+            timeText.gameObject.SetActive(true);
+            countDown = 60;
+            StartCoroutine(CountDown());
+        }
         StartCoroutine(SpawnTarget());
         score = 0;
         UpdateScore(0);
@@ -70,7 +84,7 @@ public class GameManagerX : MonoBehaviour
     public void UpdateScore(int scoreToAdd)
     {
         score += scoreToAdd;
-        scoreText.text = "score";
+        scoreText.text = "score:"+score;
     }
 
     // Stop game, bring up game over text and restart button
@@ -79,6 +93,7 @@ public class GameManagerX : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(false);
         isGameActive = false;
+        restartButton.gameObject.SetActive(true);
     }
 
     // Restart game by reloading the scene
@@ -87,4 +102,15 @@ public class GameManagerX : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    IEnumerator CountDown()
+    {
+        while (countDown > 0 && isGameActive)
+        {
+            timeText.text = "Time Left:" + countDown;
+            yield return new WaitForSeconds(1.0f);
+            countDown--;
+        }
+        isChallege = false;
+        GameOver();
+    }
 }
