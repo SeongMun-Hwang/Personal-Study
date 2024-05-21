@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyX : MonoBehaviour
+public class EnemyX12 : MonoBehaviour
 {
     public float speed;
     private Rigidbody enemyRb;
@@ -12,6 +13,7 @@ public class EnemyX : MonoBehaviour
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
+        playerGoal = GameObject.Find("Goals").transform.Find("Player Goal").gameObject;
     }
 
     // Update is called once per frame

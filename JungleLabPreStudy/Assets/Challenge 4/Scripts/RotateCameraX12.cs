@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateCameraX : MonoBehaviour
+public class RotateCameraX12 : MonoBehaviour
 {
     private float speed = 200;
     public GameObject player;

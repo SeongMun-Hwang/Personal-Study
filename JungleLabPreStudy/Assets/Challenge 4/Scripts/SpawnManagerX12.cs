@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManagerX : MonoBehaviour
+public class SpawnManagerX12 : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
@@ -12,15 +12,14 @@ public class SpawnManagerX : MonoBehaviour
     private float spawnZMax = 25; // set max spawn Z
 
     public int enemyCount;
-    public int waveCount = 1;
+    private int waveCount = 1;
 
-
-    public GameObject player; 
+    public GameObject player;
 
     // Update is called once per frame
     void Update()
     {
-        enemyCount = GameObject.FindGameObjectsWithTag("Powerup").Length;
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
         if (enemyCount == 0)
         {
@@ -49,14 +48,13 @@ public class SpawnManagerX : MonoBehaviour
         }
 
         // Spawn number of enemy balls based on wave number
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < waveCount; i++)
         {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            GameObject enemy = Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            enemy.GetComponent<EnemyX12>().speed += 10 * waveCount;
         }
-
         waveCount++;
         ResetPlayerPosition(); // put player back at start
-
     }
 
     // Move player back to position in front of own goal
