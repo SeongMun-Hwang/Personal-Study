@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class MoveToDestination : MonoBehaviour
 {
-    //Position to move
+    // Position to move to
     public Transform destination;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
-            Debug.Log("Trigger");
-            other.transform.Translate(destination.position, Space.World);
+            collision.transform.position = destination.position;
         }
     }
 }
