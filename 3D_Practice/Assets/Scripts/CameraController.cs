@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
     public Camera playerCamera;
     public RenderTexture renderTexture;
     public Renderer quadRenderer;
+
+    public float scrollPower = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +19,19 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F10))
+        if (Input.GetMouseButtonDown(0))
         {
             StartCoroutine(TakePhoto());
+        }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll > 0)
+        {
+            playerCamera.fieldOfView += scrollPower;
+        }
+        else if (scroll < 0)
+        {
+            playerCamera.fieldOfView -= scrollPower;
         }
     }
     IEnumerator TakePhoto()
