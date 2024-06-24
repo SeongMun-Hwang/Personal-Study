@@ -9,21 +9,19 @@ public class CameraController : MonoBehaviour
     public Renderer quadRenderer;
 
     public float scrollPower = 1.0f;
+    private bool cameraPower = false;
     // Start is called before the first frame update
     void Start()
     {
         renderTexture = new RenderTexture(1024, 768, 16); // 적절한 해상도로 RenderTexture를 생성
         playerCamera.targetTexture = renderTexture;
         quadRenderer.material.mainTexture = renderTexture;
+        quadRenderer.enabled = false;
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(TakePhoto());
-        }
-
+        //camera zoom in/out
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll > 0)
         {
@@ -32,6 +30,25 @@ public class CameraController : MonoBehaviour
         else if (scroll < 0)
         {
             playerCamera.fieldOfView -= scrollPower;
+        }
+        //camera on/off
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (cameraPower)
+            {
+                cameraPower = false;
+                quadRenderer.enabled = false;
+            }
+            else
+            {
+                cameraPower = true;
+                quadRenderer.enabled = true;
+            }
+        }
+        //Take Photo
+        if (Input.GetMouseButtonDown(0) && cameraPower)
+        {
+            StartCoroutine(TakePhoto());
         }
     }
     IEnumerator TakePhoto()
