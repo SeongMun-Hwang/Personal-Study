@@ -10,13 +10,18 @@ public class CameraController : MonoBehaviour
 
     public float scrollPower = 1.0f;
     private bool cameraPower = false;
-    // Start is called before the first frame update
+
+    //shader
+    private Material grayscaleMaterial;
+
     void Start()
     {
         renderTexture = new RenderTexture(1024, 768, 16); // 적절한 해상도로 RenderTexture를 생성
         playerCamera.targetTexture = renderTexture;
         quadRenderer.material.mainTexture = renderTexture;
         quadRenderer.enabled = false;
+
+        grayscaleMaterial = new Material(Shader.Find("Custom/SimpleGrayscale"));     
     }
 
     void Update()
@@ -49,6 +54,13 @@ public class CameraController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && cameraPower)
         {
             StartCoroutine(TakePhoto());
+        }
+        //black & white mode
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            quadRenderer.material = grayscaleMaterial;
+            quadRenderer.material.mainTexture = renderTexture;
+            quadRenderer.enabled = false;
         }
     }
     IEnumerator TakePhoto()
