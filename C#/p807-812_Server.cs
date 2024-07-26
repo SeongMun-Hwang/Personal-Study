@@ -41,12 +41,12 @@ namespace FileReciver
                 while (true)
                 {
                     TcpClient client = server.AcceptTcpClient();
-                    WriteLine("Client connected : {0} ", ((IPEndPoint)client.Client.RemoteEndPoint).ToString);
+                    WriteLine("Client connected : {0} ", ((IPEndPoint)client.Client.RemoteEndPoint).ToString());
 
                     NetworkStream stream = client.GetStream();
                     Message reqMsg = MessageUtil.Receive(stream);
 
-                    if (reqMsg.Header.MSGTYPE != CONSTANTS.REP_FILE_SEND)
+                    if (reqMsg.Header.MSGTYPE != CONSTANTS.REQ_FILE_SEND)
                     {
                         stream.Close();
                         client.Close();
